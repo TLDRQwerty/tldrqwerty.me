@@ -1,15 +1,31 @@
 ---
+import Header from "@components/Header.astro";
+import Base from "@layouts/Base.astro";
 ---
 
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Charlie Carolan</title>
+  </head>
+  <Base>
+    <Header />
+  </Base>
+
+  <section class="mt-16 ml-8">
+    <p>
+      Hi, I'm Charlie a software engineer. I'm currently working at <a
+        href="https://radweb.co.uk"
+        class="underline hover:text-primary-600">Radweb</a
+      >, on <a
+        href="https://inventorybase.co.uk"
+        class="underline hover:text-primary-600">InventoryBase</a
+      >.
+    </p>
+  </section>
+
+
 </html>

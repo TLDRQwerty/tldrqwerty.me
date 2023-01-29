@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseHeader from "@components/BaseHead.astro";
+import Header from "@components/Header.astro";
+import Base from "./Base.astro";
+
+type Props = CollectionEntry<"blog">["data"];
+
+const { title, description } = Astro.props as Props;
+---
+
+<html>
+  <head>
+    <BaseHeader title={title} description={description} />
+  </head>
+  <Header />
+  <Base>
+    <article
+      class="m-auto prose dark:prose-invert prose-headings:text-primary-600"
+    >
+      <h1>{title}</h1>
+      <slot />
+    </article>
+  </Base>
+</html>

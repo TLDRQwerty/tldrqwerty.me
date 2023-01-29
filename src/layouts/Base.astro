@@ -1,0 +1,17 @@
+---
+import "../style.css";
+---
+<body class="dark:bg-gray-900 dark:text-white">
+  <script is:inline>
+    const STORAGE_KEY = "PREFERRED_COLOR_THEME";
+    const theme =
+      localStorage.getItem(STORAGE_KEY) != null
+        ? localStorage.getItem(STORAGE_KEY)
+        : matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+
+    document.documentElement.classList.toggle("dark", theme !== "light");
+  </script>
+  <slot />
+</body>

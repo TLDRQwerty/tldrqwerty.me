@@ -1,0 +1,52 @@
+---
+import { Icon } from "astro-icon";
+import ColorSwitcher from "./ColorSwitcher.svelte";
+
+const LINKS = [
+  {
+    name: "Blog",
+    href: "/blog",
+    icon: "book",
+  },
+  {
+    name: "Github",
+    href: "https://github.com/TLDRQwerty",
+    icon: "brand-github",
+  },
+  {
+    name: "Twitter",
+    href: "https://twitter.com/TLDR_Qwerty",
+    icon: "brand-twitter",
+  },
+] as const;
+---
+
+<header class="lg:sticky top-0">
+  <nav class="flex-row flex justify-between items-center mx-4">
+    <div class="flex-row flex">
+      <ColorSwitcher client:load />
+      <a
+        href="/"
+        class="flex-row flex items-center space-x-1 hover:text-primary-500 p-1 hover:underline"
+        ><span class="font-semibold">Charlie Carolan</span></a
+      >
+    </div>
+    <ul class="flex-row flex justify-between space-x-4">
+      {
+        LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              class="flex-row flex items-center space-x-2 hover:text-primary-500 p-1 group"
+            >
+              <Icon name={link.icon} pack="tabler" size="24" />
+              <span class="hidden md:block font-semibold group-hover:underline">
+                {link.name}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

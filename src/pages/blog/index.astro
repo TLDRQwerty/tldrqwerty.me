@@ -1,0 +1,30 @@
+---
+import Header from "@components/Header.astro";
+import Base from "@layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const blogPosts = (await getCollection("blog")).sort((a, b) => {
+  return a.data.publishDate.valueOf() - b.data.publishDate.valueOf();
+});
+---
+
+<Base>
+  <Header />
+  <main class="w-128 m-auto">
+    <section class="max-w-lg m-auto">
+      <h1 class="text-4xl font-semibold text-primary-600 mb-4">Blog</h1>
+      <ul>
+        {
+          blogPosts.map(({ data, slug }) => (
+            <li>
+              <time>{data.publishDate.toLocaleDateString()}</time>
+              <a href={`/blog/${slug}`} class="hover:underline">
+                {data.title}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</Base>
