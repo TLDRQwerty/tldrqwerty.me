@@ -3,9 +3,11 @@ import Header from "@components/Header.astro";
 import Base from "@layouts/Base.astro";
 import { getCollection } from "astro:content";
 
-const blogPosts = (await getCollection("blog")).sort((a, b) => {
-  return a.data.publishDate.valueOf() - b.data.publishDate.valueOf();
-});
+const blogPosts = (await getCollection("blog"))
+  .sort((a, b) => {
+    return a.data.publishDate.valueOf() - b.data.publishDate.valueOf();
+  })
+  .filter((post) => !post.data.draft);
 ---
 
 <Base>
