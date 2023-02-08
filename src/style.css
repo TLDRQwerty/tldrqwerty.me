@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+a {
+  @apply underline hover:text-primary-600 transform transition duration-200 ease-in-out
+}
