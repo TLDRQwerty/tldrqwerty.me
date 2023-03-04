@@ -1,5 +1,6 @@
 ---
 import Header from "@components/Header.astro";
+import SteamInfo from "@components/SteamInfo.astro";
 import Base from "@layouts/Base.astro";
 ---
 
@@ -13,16 +14,17 @@ import Base from "@layouts/Base.astro";
   </head>
   <Base>
     <Header />
-  </Base>
 
-  <section class="mt-16 ml-8">
-    <p>
-      Hi, I'm Charlie a software engineer based in Portsmouth, currently working
-      at <a href="https://radweb.co.uk">Radweb</a>, on <a
-        href="https://inventorybase.co.uk">InventoryBase</a
-      >.
-    </p>
-  </section>
+    <section class="mt-16 ml-8">
+      <p>
+        Hi, I'm Charlie a software engineer based in Portsmouth, currently
+        working at <a href="https://radweb.co.uk">Radweb</a>, on <a
+          href="https://inventorybase.co.uk">InventoryBase</a
+        >.
+      </p>
+    </section>
+    <SteamInfo />
+  </Base>
 
 
 </html>

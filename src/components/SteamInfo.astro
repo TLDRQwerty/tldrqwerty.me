@@ -1,0 +1,55 @@
+---
+type SteamGame = {
+  appid: number;
+  name: string;
+  playtime_2weeks: number;
+  playtime_forever: number;
+  img_icon_url: string;
+  playtime_windows_forever: number;
+  playtime_mac_forever: number;
+  playtime_linux_forrever: number;
+};
+
+type RecentGames = {
+  response: {
+    total_count: number;
+    games: SteamGame[];
+  };
+};
+
+let games = await fetch(
+  `http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${
+    import.meta.env.STEAM_API_KEY
+  }&steamid=76561198042086628&format=json`,
+  { method: "GET" }
+);
+
+const json = games.ok ? ((await games.json()) as RecentGames) : null;
+---
+
+{
+  json != null && (
+    <section class="mt-16 mx-8">
+      <h2 class="text-primary-500 font-bold text-lg">What I've Been Playing</h2>
+      <ul class="grid gap-4 grid-flow-col overflow-x-auto overscroll-contain auto-cols-max snap-x">
+        {json?.response?.games?.map((game) => (
+          <li class="snap-start">
+            <a
+              href={`https://store.steampowered.com/app/${
+                game.appid
+              }/${game.name.replaceAll(" ", "_")}/`}
+            >
+              <img
+                src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
+                class="w-[460px] h-[215px]"
+                alt={`Header image for the game ${game.name}`}
+              />
+              <span>{game.name}</span>
+            </a>
+            <p>{(game.playtime_forever / 60).toFixed(1)} Hours</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
