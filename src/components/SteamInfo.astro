@@ -29,7 +29,7 @@ const json = games.ok ? ((await games.json()) as RecentGames) : null;
 
 {
   json != null && (
-    <section class="mt-16 mx-8">
+    <section class="mt-16 sm:mx-8">
       <h2 class="text-primary-500 font-bold text-lg">What I've Been Playing</h2>
       <ul class="grid gap-4 grid-flow-col overflow-x-auto overscroll-contain auto-cols-max snap-x">
         {json?.response?.games?.map((game) => (
@@ -41,7 +41,7 @@ const json = games.ok ? ((await games.json()) as RecentGames) : null;
             >
               <img
                 src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
-                class="w-[460px] h-[215px]"
+                class="sm:w-[460px] sm:h-[215px] w-screen aspect-auto"
                 alt={`Header image for the game ${game.name}`}
               />
               <span>{game.name}</span>
