@@ -17,13 +17,31 @@ const blogPosts = (await getCollection("blog"))
       <h1 class="text-4xl font-semibold text-primary-600 mb-4">Blog</h1>
       <ul>
         {
-          blogPosts.map(({ data, slug }) => (
-            <li>
-              <time>{data.publishDate.toLocaleDateString()}</time>
-              <a href={`/blog/${slug}`} class="hover:underline">
-                {data.title}
-              </a>
-            </li>
+          blogPosts.map(({ data, slug }, index) => (
+            <>
+              <li>
+                {blogPosts[index - 1]?.data.publishDate.getMonth() !==
+                  data.publishDate.getMonth() && (
+                  <h2 class="text-2xl font-semibold text-primary-600 mb-4 underline">
+                    {data.publishDate.toLocaleDateString("en-GB", {
+                      month: "long",
+                    })}
+                  </h2>
+                )}
+              </li>
+              <li>
+                <a href={`/blog/${slug}`} class="no-underline">
+                  <time class="no-underline">
+                    {data.publishDate.toLocaleDateString(undefined, {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    })}
+                  </time>
+                  <span class="underline">{data.title}</span>
+                </a>
+              </li>
+            </>
           ))
         }
       </ul>
