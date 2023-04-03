@@ -1,5 +1,4 @@
-import { defineCollection } from "astro:content";
-import * as z from "zod";
+import { defineCollection, z } from "astro:content";
 
 const blogCollection = defineCollection({
   schema: z.object({
@@ -19,6 +18,15 @@ const blogCollection = defineCollection({
   }),
 });
 
+const gamesCollection = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    steam_id: z.number(),
+    draft: z.boolean().optional(),
+  }),
+});
+
 export const collections = {
   blog: blogCollection,
+  games: gamesCollection,
 };

@@ -1,21 +1,6 @@
 ---
-type SteamGame = {
-  appid: number;
-  name: string;
-  playtime_2weeks: number;
-  playtime_forever: number;
-  img_icon_url: string;
-  playtime_windows_forever: number;
-  playtime_mac_forever: number;
-  playtime_linux_forrever: number;
-};
-
-type RecentGames = {
-  response: {
-    total_count: number;
-    games: SteamGame[];
-  };
-};
+import { Icon } from "astro-icon";
+import { CollectionEntry, getCollection, z } from "astro:content";
 
 let games = await fetch(
   `http://api.steampowered.com/IPlayerService/GetRecentlyPlayedGames/v0001/?key=${
@@ -24,7 +9,29 @@ let games = await fetch(
   { method: "GET" }
 );
 
-const json = games.ok ? ((await games.json()) as RecentGames) : null;
+const schema = z.object({
+  response: z.object({
+    total_count: z.number(),
+    games: z.array(
+      z.object({
+        appid: z.number(),
+        name: z.string(),
+        playtime_2weeks: z.number(),
+        playtime_forever: z.number(),
+        img_icon_url: z.string(),
+        playtime_windows_forever: z.number(),
+        playtime_mac_forever: z.number(),
+        playtime_linux_forever: z.number(),
+      })
+    ),
+  }),
+});
+
+const json = games.ok ? schema.parse(await games.json()) : null;
+
+const collection = await getCollection("games");
+const collectionMap: Record<number, CollectionEntry<"games">["data"]> =
+  collection.reduce((p, c) => ({ ...p, [c.data.steam_id]: c.data }), {});
 ---
 
 {
@@ -32,7 +39,7 @@ const json = games.ok ? ((await games.json()) as RecentGames) : null;
     <section class="mt-16 sm:mx-8">
       <h2 class="text-primary-500 font-bold text-lg">What I've Been Playing</h2>
       <ul class="grid gap-4 grid-flow-col overflow-x-auto overscroll-contain auto-cols-max snap-x">
-        {json?.response?.games?.map((game) => (
+        {json?.response.games?.map((game) => (
           <li class="snap-start">
             <a
               href={`https://store.steampowered.com/app/${
@@ -46,7 +53,15 @@ const json = games.ok ? ((await games.json()) as RecentGames) : null;
               />
               <span>{game.name}</span>
             </a>
-            <p>{(game.playtime_forever / 60).toFixed(1)} Hours</p>
+            <div class="flex flex-row justify-between">
+              <p>{(game.playtime_forever / 60).toFixed(1)} Hours</p>
+              {collectionMap[game.appid] !== null &&
+                collectionMap[game.appid]?.draft === false && (
+                  <a href={`/games/${String(game.appid)}`}>
+                    <Icon name="book" pack="tabler" size="24" />
+                  </a>
+                )}
+            </div>
           </li>
         ))}
       </ul>

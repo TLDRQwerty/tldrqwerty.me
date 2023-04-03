@@ -1,23 +1,23 @@
 ---
 import { getEntryBySlug } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
+import SteamAchievements from "@components/SteamAchievements.astro";
 // 1. Get the slug from the incoming server request
 const { slug } = Astro.params;
 if (slug === undefined) {
   throw new Error("Slug is required");
 }
-
 // 2. Query for the entry directly using the request slug
-const entry = await getEntryBySlug("blog", slug);
+const entry = await getEntryBySlug("games", slug);
 
 if (entry === undefined) {
   return Astro.redirect("/404");
 }
-
 // 3. (Optional) render the entry to HTML in the template
 const { Content } = await entry.render();
 ---
 
 <BlogPost {...entry.data}>
+  <SteamAchievements appid={slug} />
   <Content />
 </BlogPost>

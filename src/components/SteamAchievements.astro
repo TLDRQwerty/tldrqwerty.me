@@ -1,0 +1,60 @@
+---
+import { z } from "astro/zod";
+import { DateTime } from "luxon";
+
+export interface Props {
+  appid: string;
+}
+
+const { appid } = Astro.props as Props;
+
+const schema = z.object({
+  playerstats: z.object({
+    steamID: z.string(),
+    gameName: z.string(),
+    success: z.boolean(),
+    achievements: z.array(
+      z.object({
+        apiname: z.string(),
+        achieved: z.number().transform((d) => Boolean(d)),
+        unlocktime: z.number().transform((d) => DateTime.fromSeconds(d)),
+        name: z.string(),
+        description: z.string().optional(),
+      })
+    ),
+  }),
+});
+
+let achievementsFetch = await fetch(
+  `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?key=${
+    import.meta.env.STEAM_API_KEY
+  }&steamid=76561198042086628&appid=${appid}&l=en_GB&format=json`,
+  { method: "GET" }
+);
+
+const json = achievementsFetch.ok
+  ? schema.parse(await achievementsFetch.json())
+  : null;
+---
+
+<section>
+  <h1>Achievements</h1>
+  <ul
+    class="grid gap-4 grid-flow-col overflow-x-auto overscroll-contain auto-cols-max snap-x list-none"
+  >
+    {
+      json?.playerstats?.achievements
+        .filter(({ achieved }) => achieved)
+        .sort((a, b) => a.unlocktime.toMillis() - b.unlocktime.toMillis())
+        .map(({ name, description, unlocktime }) => (
+          <li class="snap-start">
+            <h3>{name}</h3>
+            {description && <p>{description}</p>}
+            <datetime>
+              {unlocktime.toLocaleString(DateTime.DATE_SHORT)}
+            </datetime>
+          </li>
+        ))
+    }
+  </ul>
+</section>

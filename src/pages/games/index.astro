@@ -1,0 +1,27 @@
+---
+import Header from "@components/Header.astro";
+import Base from "@layouts/Base.astro";
+import { getCollection } from "astro:content";
+
+const games = (await getCollection("games")).filter((game) => !game.data.draft);
+---
+
+<Base>
+  <Header />
+  <main class="w-128 m-auto">
+    <section class="max-w-lg m-auto">
+      <h1 class="text-4xl font-semibold text-primary-600 mb-4">Games</h1>
+      <ul>
+        {
+          games.map(({ data, slug }, index) => (
+            <li>
+              <a href={`/games/${slug}`} class="no-underline">
+                <span class="underline">{data.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  </main>
+</Base>
