@@ -9,11 +9,7 @@ import react from "@astrojs/react";
 import svelte from "@astrojs/svelte";
 
 export default defineConfig({
-  integrations: [
-    tailwind({ config: { applyBaseStyles: false } }),
-    react(),
-    svelte(),
-  ],
+  integrations: [tailwind({ applyBaseStyles: false }), react(), svelte()],
   output: "server",
   adapter: vercel(),
   markdown: {
@@ -24,5 +20,5 @@ export default defineConfig({
   },
   experimental: {
     assets: true,
-   }
+  },
 });
