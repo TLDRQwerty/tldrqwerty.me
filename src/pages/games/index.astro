@@ -1,27 +1,84 @@
 ---
+import { Icon } from "astro-icon";
 import Header from "@components/Header.astro";
 import Base from "@layouts/Base.astro";
-import { getCollection } from "astro:content";
+import { CollectionEntry, getCollection, z } from "astro:content";
 
-const games = (await getCollection("games")).filter((game) => !game.data.draft);
+const gameCollection = (await getCollection("games")).filter(
+  (game) => !game.data.draft
+);
+const steamGames = await fetch(
+  `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${
+    import.meta.env.STEAM_API_KEY
+  }&steamid=76561198042086628&format=json&include_appinfo=true`,
+  { method: "GET" }
+);
+
+const schema = z.object({
+  response: z.object({
+    game_count: z.number(),
+    games: z.array(
+      z.object({
+        appid: z.number(),
+        name: z.string(),
+        playtime_2weeks: z.optional(z.number()),
+        playtime_forever: z.number(),
+        img_icon_url: z.string(),
+        playtime_windows_forever: z.number(),
+        playtime_mac_forever: z.number(),
+        playtime_linux_forever: z.number(),
+      })
+    ),
+  }),
+});
+
+const json = steamGames.ok ? schema.parse(await steamGames.json()) : null;
+
+const sorted = json?.response.games.sort((a, b) => {
+  if (a.playtime_forever < b.playtime_forever) {
+    return 1;
+  }
+  return -1;
+});
+
+const collectionMap: Record<number, CollectionEntry<"games">["data"]> =
+  gameCollection.reduce((p, c) => ({ ...p, [c.data.steam_id]: c.data }), {});
 ---
 
 <Base>
   <Header />
-  <main class="w-128 m-auto">
-    <section class="max-w-lg m-auto">
-      <h1 class="text-4xl font-semibold text-primary-600 mb-4">Games</h1>
-      <ul>
-        {
-          games.map(({ data, slug }, index) => (
-            <li>
-              <a href={`/games/${slug}`} class="no-underline">
-                <span class="underline">{data.title}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
+  <main class="p-16 m-auto">
+    <ul class="justify-items-center grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {
+        sorted?.map((game) => (
+          <li class="max-w-[460px] max-h-[215px] list-none">
+            <a
+              href={`https://store.steampowered.com/app/${
+                game.appid
+              }/${game.name.replaceAll(" ", "_")}/`}
+            >
+              <img
+                src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
+                class="aspect-auto"
+                alt={`Header image for the game ${game.name}`}
+              />
+            </a>
+            <p class="flex flex-row flex-1 justify-between">
+              <span>{game.name}</span>
+              <span class="flex flex-row gap-4">
+                <span>
+                  {collectionMap[game.appid] != null && (
+                    <a href={`/games/${String(game.appid)}`}>
+                      <Icon name="book" pack="tabler" size="24" />
+                    </a>
+                  )}
+                </span>
+                <span>{(game.playtime_forever / 60).toFixed(1)} Hours</span>
+              </span>
+            </p>
+          </li>
+        ))
+      }
+    </ul>
   </main>
 </Base>

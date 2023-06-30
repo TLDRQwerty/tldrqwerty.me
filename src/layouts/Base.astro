@@ -1,19 +1,24 @@
----
-import "../style.css";
----
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Charlie Carolan</title>
+  </head>
+  <body class="dark:bg-gray-900 dark:text-white transition-colors">
+    <script is:inline>
+      const STORAGE_KEY = "PREFERRED_COLOR_THEME";
+      let theme = localStorage.getItem(STORAGE_KEY);
 
-<body class="dark:bg-gray-900 dark:text-white transition-colors">
-  <script is:inline>
-    const STORAGE_KEY = "PREFERRED_COLOR_THEME";
-    let theme = localStorage.getItem(STORAGE_KEY);
+      if (theme == null) {
+        theme = window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      }
 
-    if (theme == null) {
-      theme = window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-    }
-
-    document.documentElement.classList.toggle("dark", theme !== "light");
-  </script>
-  <slot />
-</body>
+      document.documentElement.classList.toggle("dark", theme !== "light");
+    </script>
+    <slot />
+  </body>
+</html>

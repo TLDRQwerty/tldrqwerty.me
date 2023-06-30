@@ -4,6 +4,11 @@ import ColorSwitcher from "./ColorSwitcher.svelte";
 
 const LINKS = [
   {
+    name: "Games",
+    href: "/games",
+    icon: "device-gamepad",
+  },
+  {
     name: "Blog",
     href: "/blog",
     icon: "book",
@@ -16,7 +21,7 @@ const LINKS = [
 ] as const;
 ---
 
-<header class="lg:sticky top-0">
+<header class="lg:sticky top-0 dark:bg-gray-900 bg-white">
   <nav class="flex-row flex justify-between items-center mx-4">
     <div class="flex-row flex">
       <ColorSwitcher client:load />

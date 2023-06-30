@@ -29,7 +29,9 @@ const schema = z.object({
 
 const json = games.ok ? schema.parse(await games.json()) : null;
 
-const collection = await getCollection("games");
+const collection = (await getCollection("games")).filter(
+  (game) => !game.data.draft
+);
 const collectionMap: Record<number, CollectionEntry<"games">["data"]> =
   collection.reduce((p, c) => ({ ...p, [c.data.steam_id]: c.data }), {});
 ---
@@ -48,19 +50,18 @@ const collectionMap: Record<number, CollectionEntry<"games">["data"]> =
             >
               <img
                 src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
-                class="sm:w-[460px] sm:h-[215px] w-screen aspect-auto"
+                class="w-[460px] h-[215px]"
                 alt={`Header image for the game ${game.name}`}
               />
               <span>{game.name}</span>
             </a>
             <div class="flex flex-row justify-between">
               <p>{(game.playtime_forever / 60).toFixed(1)} Hours</p>
-              {collectionMap[game.appid] !== null &&
-                collectionMap[game.appid]?.draft === false && (
-                  <a href={`/games/${String(game.appid)}`}>
-                    <Icon name="book" pack="tabler" size="24" />
-                  </a>
-                )}
+              {collectionMap[game.appid] != null && (
+                <a href={`/games/${String(game.appid)}`}>
+                  <Icon name="book" pack="tabler" size="24" />
+                </a>
+              )}
             </div>
           </li>
         ))}
