@@ -1,0 +1,32 @@
+---
+import Header from "@components/Header.astro";
+import Base from "@layouts/Base.astro";
+import { getSpotifyTop } from "services/spotify";
+import type { Track, Pagination } from "services/spotify/types";
+
+const data = (await getSpotifyTop("tracks")) as Pagination<Track>;
+---
+
+<Base>
+  <Header />
+  <main class="p-16 m-auto">
+    <ul
+      class="justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+    >
+      {
+        data?.items.map((track) => (
+          <li class="max-w-[460px] list-none">
+            <a href={track.external_urls.spotify}>
+              <img
+                class="rounded-lg aspect-auto bg-gray-800/25 ease-in duration-100 hover:shadow-2xl"
+                alt={`Image for the artist ${track.name}`}
+                src={track.album.images?.[0]?.url}
+              />
+              <p>{track.name}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </main>
+</Base>
