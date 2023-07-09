@@ -1,4 +1,5 @@
 ---
+import { getPlayerAchievements } from "@services/steam";
 import { z } from "astro/zod";
 import { DateTime } from "luxon";
 
@@ -25,16 +26,9 @@ const schema = z.object({
   }),
 });
 
-let achievementsFetch = await fetch(
-  `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?key=${
-    import.meta.env.STEAM_API_KEY
-  }&steamid=76561198042086628&appid=${appid}&l=en_GB&format=json`,
-  { method: "GET" }
-);
+let achievementsFetch = await getPlayerAchievements(appid);
 
-const json = achievementsFetch.ok
-  ? schema.parse(await achievementsFetch.json())
-  : null;
+const json = achievementsFetch ? schema.parse(achievementsFetch) : null;
 ---
 
 <section>

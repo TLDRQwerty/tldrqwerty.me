@@ -3,16 +3,12 @@ import { Icon } from "astro-icon";
 import Header from "@components/Header.astro";
 import Base from "@layouts/Base.astro";
 import { CollectionEntry, getCollection, z } from "astro:content";
+import { getOwnedGames } from "@services/steam";
 
 const gameCollection = (await getCollection("games")).filter(
   (game) => !game.data.draft
 );
-const steamGames = await fetch(
-  `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${
-    import.meta.env.STEAM_API_KEY
-  }&steamid=76561198042086628&format=json&include_appinfo=true`,
-  { method: "GET" }
-);
+const steamGames = await getOwnedGames();
 
 const schema = z.object({
   response: z.object({
@@ -32,7 +28,7 @@ const schema = z.object({
   }),
 });
 
-const json = steamGames.ok ? schema.parse(await steamGames.json()) : null;
+const json = steamGames ? schema.parse(steamGames) : null;
 
 const sorted = json?.response.games.sort((a, b) => {
   if (a.playtime_forever < b.playtime_forever) {
@@ -61,7 +57,7 @@ const collectionMap: Record<number, CollectionEntry<"games">["data"]> =
             >
               <img
                 src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
-                class="aspect-auto scale-100 hover:scale-125 ease-in duration-100 hover:shadow-2xl"
+                class="aspect-auto scale-100 ease-in duration-100 hover:outline rounded"
                 alt={`Header image for the game ${game.name}`}
               />
             </a>
