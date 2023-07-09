@@ -1,10 +1,9 @@
 ---
 import Header from "@components/Header.astro";
 import Base from "@layouts/Base.astro";
-import { getSpotifyTop } from "services/spotify";
-import type { Track, Pagination } from "services/spotify/types";
+import { getSpotifyTop } from "@services/spotify";
 
-const data = (await getSpotifyTop("tracks")) as Pagination<Track>;
+const data = await getSpotifyTop("tracks");
 ---
 
 <Base>

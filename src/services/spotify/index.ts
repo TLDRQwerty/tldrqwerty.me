@@ -1,4 +1,4 @@
-import type { Artist, CurrentlyPlaying, Pagination } from "./types";
+import type { Artist, CurrentlyPlaying, Pagination, Track } from "./types";
 
 const SPOTIFY_TOKEN_ENDPOINT = "https://accounts.spotify.com/api/token";
 
@@ -47,11 +47,14 @@ export async function getSpotifyNowPlaying(): Promise<CurrentlyPlaying | void> {
 
 const SPOTIFY_TOP_ENDPOINT = "https://api.spotify.com/v1/me/top";
 
-export async function getSpotifyTop(
-  type: "artists" | "tracks" = "artists",
+export async function getSpotifyTop<
+  TType extends "artists" | "tracks",
+  TReturn = TType extends "tracks" ? Track : Artist
+>(
+  type: TType,
   limit = 50,
   offset?: number
-): Promise<Pagination<Artist> | void> {
+): Promise<Pagination<TReturn> | void> {
   const { access_token: accessToken } = await getAccessToken();
 
   const response = await fetch(`${SPOTIFY_TOP_ENDPOINT}/${type}`, {
@@ -61,6 +64,6 @@ export async function getSpotifyTop(
   });
 
   if (response.ok) {
-    return (await response.json()) as Pagination<Artist>;
+    return (await response.json()) as Pagination<TReturn>;
   }
 }

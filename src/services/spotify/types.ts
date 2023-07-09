@@ -15,6 +15,7 @@ export interface Artist {
   name: string;
   type: "artist";
   url: string;
+  external_urls: ExternalUrls;
 }
 
 interface Album {
@@ -35,8 +36,8 @@ interface Album {
 }
 
 export interface Track {
-  albums: Album[];
-  artist: Artist;
+  album: Album;
+  artists: Artist[];
   href: string;
   is_playable: boolean;
   name: string;
@@ -45,6 +46,7 @@ export interface Track {
   type: "track";
   url: string;
   is_local: boolean;
+  external_urls: ExternalUrls;
 }
 
 export interface CurrentlyPlaying {

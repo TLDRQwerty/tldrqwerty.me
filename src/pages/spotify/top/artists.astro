@@ -1,9 +1,9 @@
 ---
 import Header from "@components/Header.astro";
 import Base from "@layouts/Base.astro";
-import { getSpotifyTop } from "services/spotify";
+import { getSpotifyTop } from "@services/spotify";
 
-const data = await getSpotifyTop();
+const data = await getSpotifyTop("artists");
 ---
 
 <Base>
