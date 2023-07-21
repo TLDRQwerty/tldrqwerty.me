@@ -22,8 +22,9 @@ export async function getPlayerAchievements(
   appid: string
 ): Promise<GetPlayerAchievements | void> {
   const response = await fetch(
-    `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?key=${import.meta.env.STEAM_API_KEY
-    }&steamid=76561198042086628&appid=${appid}&l=en_GB&format=json`,
+    `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?key=${
+      import.meta.env.STEAM_API_KEY
+    }&steamid=${STEAM_ID}&appid=${appid}&l=en_GB&format=json`,
     { method: "GET" }
   );
 
@@ -34,7 +35,8 @@ export async function getPlayerAchievements(
 
 export async function getOwnedGames(): Promise<OwnedGames | void> {
   const response = await fetch(
-    `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${import.meta.env.STEAM_API_KEY
+    `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${
+      import.meta.env.STEAM_API_KEY
     }&steamid=${STEAM_ID}&format=json&include_appinfo=true`,
     { method: "GET" }
   );
