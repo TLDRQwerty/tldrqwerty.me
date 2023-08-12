@@ -17,7 +17,7 @@ const data = await getSpotifyTop("tracks");
           <li class="max-w-[460px] list-none">
             <a href={track.external_urls.spotify}>
               <img
-                class="rounded-lg bg-gray-800/25 ease-in duration-100 hover:shadow-2xl max-h-[320px] max-w-[320px] aspect-auto"
+                class="rounded-lg bg-gray-800/25 ease-in duration-100 hover:shadow-2xl min-h-[320px] min-w-[320px] aspect-auto"
                 alt={`Image for the track ${track.name}`}
                 src={track.album.images?.[0]?.url}
               />

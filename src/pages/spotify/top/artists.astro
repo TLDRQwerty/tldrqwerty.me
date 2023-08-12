@@ -17,7 +17,7 @@ const data = await getSpotifyTop("artists");
           <li class="max-w-[460px] list-none">
             <a href={artist.external_urls.spotify}>
               <img
-                class="rounded-lg bg-gray-800/25 ease-in duration-100 hover:shadow-2xl max-h-[320px] max-w-[320px] aspect-auto"
+                class="rounded-lg bg-gray-800/25 ease-in duration-100 hover:shadow-2xl min-h-[320px] min-w-[320px] aspect-auto"
                 alt={`Image for the artist ${artist.name}`}
                 src={artist.images?.[0]?.url}
               />
