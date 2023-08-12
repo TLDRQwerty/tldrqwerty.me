@@ -10,14 +10,14 @@ const data = await getSpotifyTop("artists");
   <Header />
   <main class="p-16 m-auto">
     <ul
-      class="justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
+      class="justify-items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-8 gap-x-24"
     >
       {
         data?.items.map((artist) => (
           <li class="max-w-[460px] list-none">
             <a href={artist.external_urls.spotify}>
               <img
-                class="rounded-lg aspect-auto min-w-[361px] min-h-[361px] bg-gray-800/25 ease-in duration-100 hover:shadow-2xl"
+                class="rounded-lg bg-gray-800/25 ease-in duration-100 hover:shadow-2xl max-h-[320px] max-w-[320px] aspect-auto"
                 alt={`Image for the artist ${artist.name}`}
                 src={artist.images?.[0]?.url}
               />
