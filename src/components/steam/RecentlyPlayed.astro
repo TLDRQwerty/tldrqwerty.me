@@ -8,10 +8,10 @@ const recentGames = await getRecentlyPlayedGames();
   {
     recentGames?.response.games.map((game) => (
       <li class="snap-start">
-        <a class="group"href={`/games/${game.appid}/`}>
+        <a class="group" href={`/games/${game.appid}/`}>
           <Image
             src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
-            class="aspect-auto w-screen max-w-[460px] max-h-[215px]"
+            class="aspect-auto max-w-[460px] max-h-[215px]"
             alt={`Header image for the game ${game.name}`}
             width="460"
             height="215"
