@@ -20,7 +20,9 @@ const games = (await getOwnedGames())?.response.games.sort((a, b) => {
 
   <section>
     <h1>All Games</h1>
-    <ul class="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:grid-cols-4 gap-2 px-2">
+    <ul
+      class="grid md:grid-cols-3 sm:grid-cols-2 grid-cols-1 lg:grid-cols-4 gap-2 px-2"
+    >
       {
         games?.map((game) => (
           <li class="max-w-[460px] mx-auto">
