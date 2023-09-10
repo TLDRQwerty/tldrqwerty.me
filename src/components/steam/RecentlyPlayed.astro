@@ -8,7 +8,7 @@ const recentGames = await getRecentlyPlayedGames();
   {
     recentGames?.response.games.map((game) => (
       <li class="snap-start">
-        <a href={`/games/${game.appid}/`}>
+        <a class="group"href={`/games/${game.appid}/`}>
           <Image
             src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
             class="aspect-auto w-screen max-w-[460px] max-h-[215px]"
@@ -18,7 +18,9 @@ const recentGames = await getRecentlyPlayedGames();
             loading="lazy"
           />
           <div class="flex flex-row justify-between">
-            <span>{game.name}</span>
+            <span class="transition-colors duration-600 group-hover:text-primary-400">
+              {game.name}
+            </span>
             <span>{(game.playtime_forever / 60).toFixed(1)} Hours</span>
           </div>
         </a>

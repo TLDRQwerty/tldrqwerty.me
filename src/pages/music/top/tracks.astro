@@ -14,7 +14,7 @@ const tracks = await getSpotifyTop("tracks");
       {
         tracks?.items.map((track) => (
           <li>
-            <a href={track.external_urls.spotify}>
+            <a href={track.external_urls.spotify} class="group">
               {track.album.images[0] != null && (
                 <Image
                   class="rounded"
@@ -24,7 +24,9 @@ const tracks = await getSpotifyTop("tracks");
                   alt={`Album cover for ${track.name}`}
                 />
               )}
-              <p>{track.name}</p>
+              <p class="transition-colors duration-600 group-hover:text-primary-400">
+                {track.name}
+              </p>
             </a>
           </li>
         ))
