@@ -10,7 +10,7 @@ const tracks = await getSpotifyTop("tracks");
 <Site title="Top tracks" description="My top tracks" transition="none">
   <Nav selected="tracks" />
   <div transition:animate="fade">
-    <ul class="grid md:grid-cols-3 grid-cols-2 lg:grid-cols-4 gap-2 px-2">
+    <ul class="grid md:grid-cols-4 grid-cols-2 lg:grid-cols-6 gap-4 px-2">
       {
         tracks?.items.map((track) => (
           <li>
