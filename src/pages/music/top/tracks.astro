@@ -1,0 +1,34 @@
+---
+import Nav from "@components/music/top/Nav.astro";
+import Site from "@layouts/Site.astro";
+import { getSpotifyTop } from "@services/spotify";
+import { Image } from "astro:assets";
+
+const tracks = await getSpotifyTop("tracks");
+---
+
+<Site title="Top tracks" description="My top tracks" transition="none">
+  <Nav selected="tracks" />
+  <div transition:animate="fade">
+    <ul class="grid md:grid-cols-3 grid-cols-2 lg:grid-cols-4 gap-2 px-2">
+      {
+        tracks?.items.map((track) => (
+          <li>
+            <a href={track.external_urls.spotify}>
+              {track.album.images[0] != null && (
+                <Image
+                  class="rounded"
+                  src={track.album.images[0].url}
+                  width={track.album.images[0].width}
+                  height={track.album.images[0].height}
+                  alt={`Album cover for ${track.name}`}
+                />
+              )}
+              <p>{track.name}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Site>

@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+import { getRecentlyPlayedGames } from "../../services/steam";
+const recentGames = await getRecentlyPlayedGames();
+---
+
+<ul class="flex-row flex gap-4 overflow-x-auto snap-x py-2">
+  {
+    recentGames?.response.games.map((game) => (
+      <li class="snap-start">
+        <a href={`/games/${game.appid}/`}>
+          <Image
+            src={`https://cdn.akamai.steamstatic.com/steam/apps/${game.appid}/header.jpg?`}
+            class="aspect-auto w-screen max-w-[460px] max-h-[215px]"
+            alt={`Header image for the game ${game.name}`}
+            width="460"
+            height="215"
+            loading="lazy"
+          />
+          <div class="flex flex-row justify-between">
+            <span>{game.name}</span>
+            <span>{(game.playtime_forever / 60).toFixed(1)} Hours</span>
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>

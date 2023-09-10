@@ -1,0 +1,114 @@
+---
+const { slug } = Astro.params;
+import { Image } from "astro:assets";
+import Site from "@layouts/Site.astro";
+import { getGameInfo, getPlayerAchievements } from "@services/steam";
+
+if (slug == null) {
+  return Astro.redirect("/");
+}
+
+const info = await getGameInfo(slug);
+const achievements = await getPlayerAchievements(slug);
+
+const achievementsSorted = achievements?.playerstats.achievements.sort(
+  (a, b) => Number(b.achieved) - Number(a.achieved),
+);
+
+const achieved = achievementsSorted?.filter((a) => a.achieved) ?? [];
+
+const content = info![Number(slug)]!.data;
+---
+
+<Site title={content.name} description="">
+  <h1 class="text-2xl">
+    {content.name}
+  </h1>
+
+  <div class="space-y-4">
+    <ul class="flex flex-row gap-4 overflow-x-auto snap-x py-2">
+      {
+        content.screenshots?.map((shot) => (
+          <li>
+            <Image
+              src={shot.path_thumbnail}
+              class="aspect-auto w-screen max-w-[600px] max-h-[337px] snap-start"
+              alt="Screenshot of the game"
+              width="600"
+              height="337"
+            />
+          </li>
+        ))
+      }
+    </ul>
+    <ul class="flex flex-row flex-wrap gap-2">
+      {
+        content.genres?.map((g) => (
+          <li class="border rounded-lg border-gray-800 px-2 py-1">
+            {g.description}
+          </li>
+        ))
+      }
+    </ul>
+    <div>
+      <div set:html={content.short_description} />
+      <a
+        href={`https://store.steampowered.com/app/${slug}/`}
+        class="hover:underline hover:text-primary-400 transition-colors duration-600"
+        >See more</a
+      >
+    </div>
+
+    {
+      achievements && (
+        <div>
+          <div class="flex flex-row space-x-4">
+            <h2>Achievements</h2>
+            <span>
+              {achieved.length}/{achievementsSorted?.length}
+            </span>
+          </div>
+          <ul class="flex flex-row overflow-x-auto gap-2 whitespace-nowrap py-2 snap-x">
+            {achievementsSorted?.map(
+              ({ achieved, unlocktime, name, description }) => (
+                <li
+                  class={
+                    (achieved ? "bg-gray-800 " : " ") +
+                    "rounded-lg border border-gray-800 px-2 py-1 snap-start"
+                  }
+                >
+                  <div class="space-x-2 justify-between flex-row flex justify-between">
+                    <p>{name}</p>
+                    {achieved ? (
+                      <p>
+                        {new Intl.DateTimeFormat("en-GB", {
+                          dateStyle: "short",
+                        }).format(new Date(Number(unlocktime) * 1000))}
+                      </p>
+                    ) : null}
+                  </div>
+                  <p>{description}</p>
+                </li>
+              ),
+            )}
+          </ul>
+        </div>
+      )
+    }
+
+    <div>
+      <aside>
+        <h1>Developers:</h1>
+        <ul class="pl-2">
+          {content.developers.map((developer) => <li>{developer}</li>)}
+        </ul>
+      </aside>
+      <aside>
+        <h1>Publishers:</h1>
+        <ul class="pl-2">
+          {content.publishers.map((publisher) => <li>{publisher}</li>)}
+        </ul>
+      </aside>
+    </div>
+  </div>
+</Site>

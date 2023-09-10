@@ -1,16 +1,19 @@
 ---
-
+import RecentlyPlayed from "../components/steam/RecentlyPlayed.astro";
+import Site from "../layouts/Site.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Site title="TLDRQwerty" description="My Website">
+  <section class="py-8">
+    Hi, I'm Charlie a software engineer based in Portsmouth, currently working
+    at Radweb, on InventoryBase.
+  </section>
+  <section>
+    <h1>What I've Been Playing</h1>
+    <RecentlyPlayed />
+    <a
+      class="hover:underline hover:text-primary-400 transition-colors duration-600"
+      href="/games">See more</a
+    >
+  </section>
+</Site>

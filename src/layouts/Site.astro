@@ -1,0 +1,25 @@
+---
+import type { TransitionAnimationValue } from "astro";
+import Head from "../components/Head.astro";
+import Navbar from "../components/Navbar.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  transition?: TransitionAnimationValue;
+}
+
+const { title, description, transition = "fade" } = Astro.props as Props;
+---
+
+<html transition:animate="none" class="text-white bg-black">
+  <head>
+    <Head title={title} description={description} />
+  </head>
+  <body>
+    <Navbar />
+    <main transition:animate={transition} class="p-2">
+      <slot />
+    </main>
+  </body>
+</html>
