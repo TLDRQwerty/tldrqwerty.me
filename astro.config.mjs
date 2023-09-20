@@ -8,6 +8,6 @@ export default defineConfig({
   integrations: [tailwind()],
   output: "server",
   adapter: vercel({
-    imageService: true
+    imageService: false
   })
 });
