@@ -12,7 +12,7 @@ interface Props {
 const { title, description, transition = "fade" } = Astro.props as Props;
 ---
 
-<html transition:animate="none" class="text-white bg-black">
+<html transition:animate="none" class="text-white bg-black dark">
   <head>
     <Head title={title} description={description} />
   </head>

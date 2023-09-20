@@ -21,7 +21,7 @@ const content = info![Number(slug)]!.data;
 ---
 
 <Site title={content.name} description="">
-  <h1 class="text-2xl">
+  <h1 class="text-2xl" transition:name={"steam-name-"+content.name}>
     {content.name}
   </h1>
 

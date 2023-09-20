@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import Site from "@layouts/Site.astro";
+
+const blogPosts = await getCollection("blog", ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+});
+---
+
+<Site title="Blog Posts" description="My blog posts">
+  <div class="max-w-[65ch] m-auto">
+    <h1 class="text-xl text-primary-400">Blog Posts</h1>
+    {blogPosts.length === 0 && <p>No blog posts</p>}
+    <ul>
+      {
+        blogPosts.map((a) => (
+          <li>
+            <a class="hover:underline" href={`/blogs/${a.slug}`}>{a.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Site>
