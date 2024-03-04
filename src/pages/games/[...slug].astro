@@ -1,0 +1,69 @@
+---
+import Link from "@components/Link.astro";
+import Site from "@layouts/Site.astro";
+import Image from "@components/Image.astro";
+
+const { slug } = Astro.params;
+import { getGameInfo, getOwnedGames } from "@services/steam";
+
+if (slug == null) {
+  return Astro.redirect("/");
+}
+
+const games = await getOwnedGames();
+const game = await getGameInfo(slug);
+
+if (game == null) {
+  return Astro.redirect("/");
+}
+
+const info = game[slug]?.data;
+
+if (info == null) {
+  return Astro.redirect("/");
+}
+---
+
+<Site title={"Game"} class="border-none flex-row flex p-0" transition="none">
+  <section
+    class="hidden xl:block sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4 mr-4"
+    transition:persist
+  >
+    <ul>
+      {
+        games.map((game) => (
+          <li>
+            <Link href={`/games/${game.appid}`}>{game.name}</Link>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section
+    transition:animate="fade"
+    class="sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4 flex-1"
+  >
+    <h1>
+      {info.name}
+    </h1>
+
+    <ul class="flex flex-row gap-4 snap-x overflow-x-scroll">
+      {
+        info.screenshots.map((screenshot) => (
+          <li class="snap-start p-2">
+            <Image
+              src={screenshot.path_thumbnail}
+              class="aspect-auto w-screen max-w-[600px] max-h-[337px]"
+            />
+          </li>
+        ))
+      }
+    </ul>
+
+    <h2>Description</h2>
+    <p>
+      {info.short_description}
+    </p>
+  </section>
+</Site>

@@ -1,14 +1,18 @@
 ---
 import Site from "../layouts/Site.astro";
-import { getRecentlyPlayedGames } from "../services/steam";
+import { getRecentlyPlayedGames } from "@services/steam";
+import { getTopTracks, getTopArtists, getTopAlbums } from "@services/lastfm";
+import Link from "@components/Link.astro";
+import Image from "@components/Image.astro";
 
 const recentGames = await getRecentlyPlayedGames();
+
+const tracks = await getTopTracks();
+const artists = await getTopArtists();
+const albums = await getTopAlbums(5, true);
 ---
 
-<Site
-  title="/Now"
-  className="border border-ctp-mauve rounded-lg p-4 min-w-full min-h-full"
->
+<Site title="/Now">
   <div class="space-y-4">
     <h1 class="text-2xl">My /Now Page</h1>
 
@@ -16,19 +20,56 @@ const recentGames = await getRecentlyPlayedGames();
       <h2 class="text-lg text-ctp-mauve">What I'm doing now</h2>
       <ul>
         <li>Living in Portsmouth</li>
-        <li>Working at Radweb</li>
+        <li>Working at <Link href="https://www.radweb.co.uk">Radweb</Link></li>
       </ul>
     </section>
     <section>
       <h2 class="text-lg text-ctp-mauve">What I'm currently playing</h2>
       <ul>
-        {recentGames?.games.map((game) => <li>{game.name}</li>)}
+        {
+          recentGames?.games.map((game) => (
+            <li>
+              <Link href={`/games/${game.appid}`}>{game.name}</Link>
+            </li>
+          ))
+        }
       </ul>
     </section>
     <section>
       <h2 class="text-lg text-ctp-mauve">What I'm currently listening to</h2>
-      <ul>
-        <li>Nothing at the moment</li>
+      <h3 class="text-xl">Albums</h3>
+      <ul class="list-inside list-none flex flex-row gap-4">
+        {
+          albums.map((album) => (
+            <li class="items-center">
+              <Link href={album.url}>
+                {album.image[2]?.["#text"] != "" && (
+                  <Image src={album.image[2]!["#text"]} alt={album.name} />
+                )}
+              </Link>
+            </li>
+          ))
+        }
+      </ul>
+      <h3 class="text-xl">Tracks</h3>
+      <ul class="list-disc list-inside">
+        {
+          tracks.map((track) => (
+            <li>
+              <Link href={track.url}>{track.name}</Link>
+            </li>
+          ))
+        }
+      </ul>
+      <h3 class="text-xl">Artists</h3>
+      <ul class="list-disc list-inside">
+        {
+          artists.map((artist) => (
+            <li>
+              <Link href={artist.url}>{artist.name}</Link>
+            </li>
+          ))
+        }
       </ul>
     </section>
   </div>

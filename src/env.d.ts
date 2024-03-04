@@ -7,4 +7,6 @@ interface ImportMetaEnv {
   readonly SPOTIFY_CLIENT_ID: stirng;
   readonly SPOTIFY_CLIENT_SECRET: string;
   readonly SPOTIFY_REFRESH_TOKEN: string;
+
+  readonly LASTFM_API_KEY: string;
 }

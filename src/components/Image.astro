@@ -1,0 +1,14 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"image"> & {
+  src: string;
+  alt?: string
+};
+
+const { class: className, ...rest } = Astro.props;
+---
+
+<image class:list={["hover:outline outline-ctp-mauve", className]} {...rest}>
+  <slot />
+</image>

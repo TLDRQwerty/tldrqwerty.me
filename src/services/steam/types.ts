@@ -1,4 +1,4 @@
-interface Game {
+export interface Game {
   appid: number;
   name: string;
   playtime_2weeks: number;

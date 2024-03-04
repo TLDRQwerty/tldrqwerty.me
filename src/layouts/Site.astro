@@ -1,19 +1,20 @@
 ---
 import type { TransitionAnimationValue } from "astro";
-import Head from "../components/Head.astro";
+import Head from "@components/Head.astro";
+import Link from "@components/Link.astro";
 
 interface Props {
   title: string;
   description?: string;
   transition?: TransitionAnimationValue;
-  className?: string;
+  class?: string;
 }
 
 const {
   title,
   description,
   transition = "fade",
-  className,
+  class: className,
 } = Astro.props as Props;
 ---
 
@@ -22,38 +23,44 @@ const {
     <Head title={title} description={description} />
   </head>
   <body
-    class="p-2 bg-ctp-base ctp-mocha min-h-screen min-w-screen font-shantell-sans text-white"
+    class="p-2 bg-ctp-base ctp-mocha h-screen max-h-screen min-h-screen min-w-screen font-shantell-sans text-ctp-text"
   >
     <nav class="sm:flex sm:flex-1 pb-4">
       <div class="border rounded-lg border-ctp-mauve p-2 mb-2 sm:mb-0">
-        <a href="/">
+        <Link href="/">
           <h1 class="text-ctp-mauve hover:underline">TLDRQwerty.me</h1>
-        </a>
+        </Link>
       </div>
       <ul
         class="border rounded-lg border-ctp-mauve p-2 ml-auto grid grid-cols-3 grid-rows-2 sm:grid-rows-none sm:grid-cols-6 gap-4 sm:gap-0"
       >
         <li>
-          <a href="/now">/Now</a>
+          <Link href="/now">/Now</Link>
         </li>
         <li>
-          <a href="/">Blog</a>
+          <Link href="/">Blog</Link>
         </li>
         <li>
-          <a href="/">Music</a>
+          <Link href="/music">Music</Link>
         </li>
         <li>
-          <a href="/">Games</a>
+          <Link href="/games">Games</Link>
         </li>
         <li>
-          <a href="/">Github</a>
+          <Link href="https://github.com/tldrqwerty">Github</Link>
         </li>
         <li>
-          <a href="/">Mastodon</a>
+          <Link href="https://social.lol/@tldrqwerty">Mastodon</Link>
         </li>
       </ul>
     </nav>
-    <main transition:animate={transition} class={className}>
+    <main
+      transition:animate={transition}
+      class:list={[
+        "sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4",
+        className,
+      ]}
+    >
       <slot />
     </main>
   </body>
