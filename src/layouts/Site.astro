@@ -1,24 +1,59 @@
 ---
 import type { TransitionAnimationValue } from "astro";
 import Head from "../components/Head.astro";
-import Navbar from "../components/Navbar.astro";
 
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   transition?: TransitionAnimationValue;
+  className?: string;
 }
 
-const { title, description, transition = "fade" } = Astro.props as Props;
+const {
+  title,
+  description,
+  transition = "fade",
+  className,
+} = Astro.props as Props;
 ---
 
-<html transition:animate="none" class="text-white bg-black dark">
+<html transition:animate="none">
   <head>
     <Head title={title} description={description} />
   </head>
-  <body>
-    <Navbar />
-    <main transition:animate={transition} class="p-2">
+  <body
+    class="p-2 bg-ctp-base ctp-mocha min-h-screen min-w-screen font-shantell-sans text-white"
+  >
+    <nav class="sm:flex sm:flex-1 pb-4">
+      <div class="border rounded-lg border-ctp-mauve p-2 mb-2 sm:mb-0">
+        <a href="/">
+          <h1 class="text-ctp-mauve hover:underline">TLDRQwerty.me</h1>
+        </a>
+      </div>
+      <ul
+        class="border rounded-lg border-ctp-mauve p-2 ml-auto grid grid-cols-3 grid-rows-2 sm:grid-rows-none sm:grid-cols-6 gap-4 sm:gap-0"
+      >
+        <li>
+          <a href="/now">/Now</a>
+        </li>
+        <li>
+          <a href="/">Blog</a>
+        </li>
+        <li>
+          <a href="/">Music</a>
+        </li>
+        <li>
+          <a href="/">Games</a>
+        </li>
+        <li>
+          <a href="/">Github</a>
+        </li>
+        <li>
+          <a href="/">Mastodon</a>
+        </li>
+      </ul>
+    </nav>
+    <main transition:animate={transition} class={className}>
       <slot />
     </main>
   </body>
