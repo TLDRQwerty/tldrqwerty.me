@@ -18,7 +18,7 @@ const games = await getOwnedGames();
 const game = await getGameInfo(slug);
 const achievementsResponse = await getPlayerAchievements(slug);
 
-if (game == null || achievementsResponse == null) {
+if (game == null) {
 	return Astro.redirect("/");
 }
 
@@ -28,7 +28,7 @@ if (info == null) {
 	return Astro.redirect("/");
 }
 
-const achievements = achievementsResponse.playerstats.achievements.sort(
+const achievements = achievementsResponse?.playerstats.achievements?.sort(
 	(a, b) => {
 		if (a.achieved && !b.achieved) {
 			return -1;
@@ -38,7 +38,7 @@ const achievements = achievementsResponse.playerstats.achievements.sort(
 		}
 		return 0;
 	},
-);
+) ?? [];
 
 const achieved = achievements.filter(
 	(achievement) => achievement.achieved,
@@ -63,7 +63,7 @@ const achieved = achievements.filter(
 
 	<section
 		transition:animate="fade"
-		class="sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4 flex-1"
+		class="sm:overflow-y-scroll max-w-screen sm:max-h-full border border-ctp-mauve rounded-lg p-4 flex-1"
 	>
 		<h1>
 			{info.name}
@@ -82,7 +82,7 @@ const achieved = achievements.filter(
 			}
 		</ul>
 
-		<section>
+		{!!achievements.length && <section>
 			<h2>Achievements ({achieved} / {achievements.length})</h2>
 			<ul class="flex flex-row overflow-x-auto py-2 gap-4 snap-x">
 				{
@@ -107,6 +107,10 @@ const achieved = achievements.filter(
 				}
 			</ul>
 
+			</section>
+			}
+
+			<section>
 			<h2>Description</h2>
 			<p>
 				{info.short_description}
