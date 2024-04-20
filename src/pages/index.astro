@@ -1,9 +1,12 @@
 ---
-import Site from "../layouts/Site.astro";
+import Site from "@layouts/Site.astro";
+import RecentlyPlayedGames from "@components/RecentlyPlayedGames.astro";
 ---
 
-<html lang="en">
-  <Site title="Home">
-    My Website :)
-  </Site>
-</html>
+<Site title="Home">
+	<section>My Website :)</section>
+	<section>
+		<h1>Recently Played Games</h1>
+		<RecentlyPlayedGames />
+	</section>
+</Site>

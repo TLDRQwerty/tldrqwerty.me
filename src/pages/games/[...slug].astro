@@ -4,66 +4,113 @@ import Site from "@layouts/Site.astro";
 import Image from "@components/Image.astro";
 
 const { slug } = Astro.params;
-import { getGameInfo, getOwnedGames } from "@services/steam";
+import {
+	getGameInfo,
+	getOwnedGames,
+	getPlayerAchievements,
+} from "@services/steam";
 
 if (slug == null) {
-  return Astro.redirect("/");
+	return Astro.redirect("/");
 }
 
 const games = await getOwnedGames();
 const game = await getGameInfo(slug);
+const achievementsResponse = await getPlayerAchievements(slug);
 
-if (game == null) {
-  return Astro.redirect("/");
+if (game == null || achievementsResponse == null) {
+	return Astro.redirect("/");
 }
 
 const info = game[slug]?.data;
 
 if (info == null) {
-  return Astro.redirect("/");
+	return Astro.redirect("/");
 }
+
+const achievements = achievementsResponse.playerstats.achievements.sort(
+	(a, b) => {
+		if (a.achieved && !b.achieved) {
+			return -1;
+		}
+		if (!a.achieved && b.achieved) {
+			return 1;
+		}
+		return 0;
+	},
+);
+
+const achieved = achievements.filter(
+	(achievement) => achievement.achieved,
+).length;
 ---
 
 <Site title={"Game"} class="border-none flex-row flex p-0" transition="none">
-  <section
-    class="hidden xl:block sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4 mr-4"
-    transition:persist
-  >
-    <ul>
-      {
-        games.map((game) => (
-          <li>
-            <Link href={`/games/${game.appid}`}>{game.name}</Link>
-          </li>
-        ))
-      }
-    </ul>
-  </section>
+	<section
+		class="hidden xl:block sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4 mr-4"
+		transition:persist
+	>
+		<ul>
+			{
+				games.map((game) => (
+					<li>
+						<Link href={`/games/${game.appid}`}>{game.name}</Link>
+					</li>
+				))
+			}
+		</ul>
+	</section>
 
-  <section
-    transition:animate="fade"
-    class="sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4 flex-1"
-  >
-    <h1>
-      {info.name}
-    </h1>
+	<section
+		transition:animate="fade"
+		class="sm:overflow-y-scroll sm:max-h-full border border-ctp-mauve rounded-lg p-4 flex-1"
+	>
+		<h1>
+			{info.name}
+		</h1>
 
-    <ul class="flex flex-row gap-4 snap-x overflow-x-scroll">
-      {
-        info.screenshots.map((screenshot) => (
-          <li class="snap-start p-2">
-            <Image
-              src={screenshot.path_thumbnail}
-              class="aspect-auto w-screen max-w-[600px] max-h-[337px]"
-            />
-          </li>
-        ))
-      }
-    </ul>
+		<ul class="flex flex-row gap-4 snap-x overflow-x-scroll">
+			{
+				info.screenshots.map((screenshot) => (
+					<li class="snap-start p-2">
+						<Image
+							src={screenshot.path_thumbnail}
+							class="aspect-auto w-screen max-w-[600px] max-h-[337px]"
+						/>
+					</li>
+				))
+			}
+		</ul>
 
-    <h2>Description</h2>
-    <p>
-      {info.short_description}
-    </p>
-  </section>
+		<section>
+			<h2>Achievements ({achieved} / {achievements.length})</h2>
+			<ul class="flex flex-row overflow-x-auto py-2 gap-4 snap-x">
+				{
+					achievements.map((achievement) => (
+						<li
+							class:list={[
+								"min-w-full rounded snap-start p-2 flex-shrink md:min-w-max border border-ctp-mauve",
+								achievement.achieved && "bg-ctp-mauve/25",
+							]}
+						>
+							<p>{achievement.name}</p>
+							<p>{achievement.description}</p>
+							{achievement.unlocktime !== 0 && (
+								<p>
+									{new Intl.DateTimeFormat("en-GB", {
+										dateStyle: "short",
+									}).format(new Date(achievement.unlocktime * 1000))}
+								</p>
+							)}
+						</li>
+					))
+				}
+			</ul>
+
+			<h2>Description</h2>
+			<p>
+				{info.short_description}
+			</p>
+		</section>
+	</section>
 </Site>

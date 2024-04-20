@@ -2,13 +2,19 @@
 import type { HTMLAttributes } from "astro/types";
 
 type Props = HTMLAttributes<"image"> & {
-  src: string;
-  alt?: string
+	src: string;
+	alt?: string;
 };
 
 const { class: className, ...rest } = Astro.props;
 ---
 
-<image class:list={["hover:outline outline-ctp-mauve", className]} {...rest}>
-  <slot />
+<image
+	class:list={[
+		"border-2 border-transparent hover:border-ctp-mauve border-box",
+		className,
+	]}
+	{...rest}
+>
+	<slot />
 </image>
