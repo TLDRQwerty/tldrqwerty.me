@@ -1,0 +1,43 @@
+{
+	"games": [
+		{
+			"name": "Sonic Adventure 2 Battle"
+		},
+		{
+			"name": "Sonic Adventure DX: Director's Cut"
+		},
+		{
+			"name": "Sonic Riders"
+		},
+		{
+			"name": "Sonic Heroes"
+		},
+		{
+			"name": "Sonic Mega Collection"
+		},
+		{
+			"name": "Tony Hawk's Pro Skater 4"
+		},
+		{
+			"name": "Super Mario Sunshine"
+		},
+		{
+			"name": "Shadow the Hedgehog"
+		},
+		{
+			"name": "Need for Speed: Underground 2"
+		},
+		{
+			"name": "Mario Kart Double Dash"
+		},
+		{
+			"name": "Sonic Gems Collection"
+		},
+		{
+			"name": "The Incredibles"
+		},
+		{
+			"name": "Crash Nitro Kart"
+		}
+	]
+}
