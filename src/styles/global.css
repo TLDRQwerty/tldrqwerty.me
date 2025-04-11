@@ -1,5 +1,4 @@
-@import "tailwindcss";
-
+@import url("https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
 :root {
@@ -724,7 +723,6 @@
   --catppuccin-mocha-mantle: #181825;
   --catppuccin-mocha-crust: #11111b;
 }
-
 
 @theme inline {
   --color-rosewater: var(--catppuccin-color-rosewater);
@@ -2009,3 +2007,6 @@
 @custom-variant macchiato (&:where(.macchiato, .macchiato *));
 @custom-variant mocha (&:where(.mocha, .mocha *));
 
+@theme {
+  --font-sans: "Shantell Sans", sans-serif;
+}

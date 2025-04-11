@@ -1,20 +1,20 @@
 {
-	"name": "Game Gear",
-	"games": [
-		{
-			"name": "Sonic Chaos"
-		},
-		{
-			"name": "Super monaco GP"
-		},
-		{
-			"name": "Super OFF ROAD"
-		},
-		{
-			"name": "Sega Game Pack 4 in 1"
-		},
-		{
-			"name": "Sonic The Hedgehog 2"
-		}
-	]
+  "name": "Game Gear",
+  "games": [
+    {
+      "name": "Sonic Chaos"
+    },
+    {
+      "name": "Super monaco GP"
+    },
+    {
+      "name": "Super OFF ROAD"
+    },
+    {
+      "name": "Sega Game Pack 4 in 1"
+    },
+    {
+      "name": "Sonic The Hedgehog 2"
+    }
+  ]
 }

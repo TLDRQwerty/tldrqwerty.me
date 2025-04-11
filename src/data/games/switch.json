@@ -1,14 +1,14 @@
 {
-	"name": "Switch",
-	"games": [
-		{
-			"name": "Super Mario Odyssey"
-		},
-		{
-			"name": "The Legend of Zelda: Breath of the Wild"
-		},
-		{
-			"name": "The Legend of Zelda: Tears of the Kingdom"
-		}
-	]
+  "name": "Switch",
+  "games": [
+    {
+      "name": "Super Mario Odyssey"
+    },
+    {
+      "name": "The Legend of Zelda: Breath of the Wild"
+    },
+    {
+      "name": "The Legend of Zelda: Tears of the Kingdom"
+    }
+  ]
 }

@@ -1,32 +1,32 @@
 {
-	"name": "Game Boy Advance",
-	"games": [
-		{
-			"name": "Zelda: NES Classic"
-		},
-		{
-			"name": "Xevious: NES Classic"
-		},
-		{
-			"name": "Spyro Season of Ice"
-		},
-		{
-			"name": "Hot Wheels: Stunt Track Challenge"
-		},
-		{
-			"name": "TG Rally"
-		},
-		{
-			"name": "The Incredibles"
-		},
-		{
-			"name": "Sonic Advance"
-		},
-		{
-			"name": "Sonic Advance 2"
-		},
-		{
-			"name": "Sonic Advance 3"
-		}
-	]
+  "name": "Game Boy Advance",
+  "games": [
+    {
+      "name": "Zelda: NES Classic"
+    },
+    {
+      "name": "Xevious: NES Classic"
+    },
+    {
+      "name": "Spyro Season of Ice"
+    },
+    {
+      "name": "Hot Wheels: Stunt Track Challenge"
+    },
+    {
+      "name": "TG Rally"
+    },
+    {
+      "name": "The Incredibles"
+    },
+    {
+      "name": "Sonic Advance"
+    },
+    {
+      "name": "Sonic Advance 2"
+    },
+    {
+      "name": "Sonic Advance 3"
+    }
+  ]
 }

@@ -1,14 +1,14 @@
 {
-	"name": "Xbox One",
-	"games": [
-		{
-			"name": "Halo 5"
-		},
-		{
-			"name": "Call of Duty: Ghosts"
-		},
-		{
-			"name": "Halo Master Chief Collection"
-		}
-	]
+  "name": "Xbox One",
+  "games": [
+    {
+      "name": "Halo 5"
+    },
+    {
+      "name": "Call of Duty: Ghosts"
+    },
+    {
+      "name": "Halo Master Chief Collection"
+    }
+  ]
 }
