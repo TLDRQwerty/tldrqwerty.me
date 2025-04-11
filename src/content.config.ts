@@ -8,6 +8,7 @@ const games = defineCollection({
 		base: "./src/data/games"
 	}),
 	schema: z.object({
+		name: z.string(),
 		games: z.array(z.object({
 			name: z.string(),
 		}))
