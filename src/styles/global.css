@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Shantell+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
+@plugin '@tailwindcss/typography';
+
 :root {
   --catppuccin-latte-rosewater: #dc8a78;
   --catppuccin-latte-rosewater-500: #dc8a78;
