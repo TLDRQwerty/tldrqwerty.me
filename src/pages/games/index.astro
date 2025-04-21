@@ -1,0 +1,35 @@
+---
+import { getOwnedGames } from "@functions/steam";
+import Layout from "@layouts/Layout.astro";
+import Game from "@components/Game.astro";
+import { getCollection } from "astro:content";
+
+const platforms = await getCollection("games");
+
+let steamOwnedGames = await getOwnedGames();
+steamOwnedGames.sort((a, b) => b.playtime_forever - a.playtime_forever);
+---
+
+<Layout>
+  <div>
+    <details>
+      <summary>Steam ({steamOwnedGames.length})</summary>
+      <ul>{steamOwnedGames.map((game) => <li>{game.name}</li>)}</ul>
+    </details>
+
+    {
+      platforms.map((platform) => (
+        <details>
+          <summary>
+            {platform.data.name} ({platform.data.games.length})
+          </summary>
+          <ul class="grid grid-cols-3 gap-4">
+            {platform.data.games.map((game) => (
+              <Game name={game.name} type={platform.id} />
+            ))}
+          </ul>
+        </details>
+      ))
+    }
+  </div>
+</Layout>

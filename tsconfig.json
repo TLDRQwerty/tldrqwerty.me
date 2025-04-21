@@ -11,7 +11,8 @@
       "@pages/*": ["src/pages/*"],
       "@assets/*": ["src/assets/*"],
       "@data/*": ["src/data/*"],
-      "@styles/*": ["src/styles/*"]
+      "@styles/*": ["src/styles/*"],
+      "@functions/*": ["src/functions/*"]
     }
   }
 }

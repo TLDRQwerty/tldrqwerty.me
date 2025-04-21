@@ -1,0 +1,36 @@
+---
+enum GameType {
+  DS = "ds",
+  SWITCH = "switch",
+  DEFAULT = "default",
+	GAMEBOY = "gameboy",
+	XBOX_ONE = "xbox_one",
+	GAMEGEAR = "gamegear",
+}
+
+interface Props {
+  name: string;
+  type: GameType | string;
+}
+
+const { name, type = GameType.DEFAULT } = Astro.props;
+console.log(type);
+---
+
+<li class="space-between flex flex-col items-center rounded-lg p-8">
+  <div
+    class:list={[
+      "from-pink to-mauve h-72 w-48 rounded bg-linear-200",
+      {
+        "h-[190px] w-[135px]": type === GameType.DEFAULT,
+        "h-[124px] w-[136px]": type === GameType.DS,
+        "h-[170px] w-[105px]": type === GameType.SWITCH,
+        "h-[125px] w-[125px]": type === GameType.GAMEBOY,
+        "h-[170px] w-[135px]": type === GameType.XBOX_ONE,
+        "h-[140px] w-[108px]": type === GameType.GAMEGEAR,
+      },
+    ]}
+  >
+  </div>
+  <p class="text-blue-200">{name}</p>
+</li>

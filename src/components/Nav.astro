@@ -1,0 +1,49 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<nav class="flex flex-row justify-between">
+  <a href="/" class="flex flex-row items-center space-x-2 hover:underline">
+    <Icon name="tabler:home" size="24" />
+    <p>Home</p>
+  </a>
+
+  <div class="grid grid-flow-col gap-4">
+    <a
+      href="/blog"
+      class="flex flex-row items-center space-x-2 hover:underline"
+    >
+      <Icon name="tabler:book" size="24" />
+      <p>Blog</p>
+    </a>
+
+    <a
+      href="/music"
+      class="flex flex-row items-center space-x-2 hover:underline"
+    >
+      <Icon name="tabler:music" size="24" />
+      <p>Music</p>
+    </a>
+    <a
+      href="/games"
+      class="flex flex-row items-center space-x-2 hover:underline"
+    >
+      <Icon name="tabler:device-gamepad-2" size="24" />
+      <p>Games</p>
+    </a>
+    <a
+      href="https://github.com/tldrqwerty"
+      class="flex flex-row items-center space-x-2 hover:underline"
+    >
+      <Icon name="tabler:brand-github" size="24" />
+      <p>Github</p>
+    </a>
+    <a
+      href="https://social.lol/@tldrqwerty"
+      class="flex flex-row items-center space-x-2 hover:underline"
+    >
+      <Icon name="tabler:brand-mastodon" size="24" />
+      <p>Mastodon</p>
+    </a>
+  </div>
+</nav>

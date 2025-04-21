@@ -1,0 +1,50 @@
+---
+import Layout from "@layouts/Layout.astro";
+
+const { getTopTracks, getTopArtists, getTopAlbums } = await import(
+  "@functions/lastfm"
+);
+
+const tracks = await getTopTracks();
+const albums = await getTopAlbums(5, true);
+const artists = await getTopArtists(5);
+---
+
+<Layout>
+  <div>
+    {
+      tracks.map((track) => (
+        <div>
+          <>
+            <img src={track.image[2]!["#text"]} />
+            <p>{track.name}</p>
+          </>
+        </div>
+      ))
+    }
+  </div>
+  <div>
+    {
+      artists.map((artist) => (
+        <div>
+          <>
+            <img src={artist.image[2]!["#text"]} />
+            <p>{artist.name}</p>
+          </>
+        </div>
+      ))
+    }
+  </div>
+  <div>
+    {
+      albums.map((album) => (
+        <div>
+          <>
+            <img src={album.image[2]!["#text"]} />
+            <p>{album.name}</p>
+          </>
+        </div>
+      ))
+    }
+  </div>
+</Layout>

@@ -1,0 +1,59 @@
+---
+import { getOwnedGames, getPlayerAchievements } from "@functions/steam";
+import Layout from "@layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const steamOwnedGames = await getOwnedGames();
+  const params = steamOwnedGames.map((game) => {
+    return {
+      params: { appid: game.appid },
+    };
+  });
+  return params;
+}
+
+const { appid } = Astro.params;
+
+const achievementsResponse = await getPlayerAchievements(String(appid));
+
+if (achievementsResponse == null) {
+  Astro.redirect("404");
+  return;
+}
+
+let { achievements } = achievementsResponse.playerstats;
+
+achievements.sort((a, b) => b.unlocktime - a.unlocktime);
+---
+
+<Layout>
+  <h1>{appid}</h1>
+
+  <h2>Achievements</h2>
+  <ul class="space-y-4">
+    {
+      achievements.map((achievement) => (
+        <li
+          class:list={[
+            "flex flex-col gap-2 rounded-lg border p-4 text-white",
+            {
+              "bg-red-400 text-black": achievement.achieved,
+            },
+          ]}
+        >
+          <div class="flex flex-row justify-between">
+            <p>{achievement.name}</p>
+            {achievement.achieved ? (
+              <p>
+                {new Intl.DateTimeFormat("en-GB", {
+                  dateStyle: "short",
+                }).format(new Date(achievement.unlocktime * 1000))}
+              </p>
+            ) : null}
+          </div>
+          <p>{achievement.description}</p>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
