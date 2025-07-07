@@ -1,33 +1,32 @@
 ---
-import { getOwnedGames, getPlayerAchievements } from "@functions/steam";
+import { getCollection } from "astro:content";
 import Layout from "@layouts/Layout.astro";
 
 export async function getStaticPaths() {
-  const steamOwnedGames = await getOwnedGames();
-  const params = steamOwnedGames.map((game) => {
-    return {
-      params: { appid: game.appid },
-    };
-  });
-  return params;
+  const games = await getCollection("steam");
+
+  return games.map((game) => ({
+    params: { slug: game.data.slug },
+    props: { game },
+  }));
 }
 
-const { appid } = Astro.params;
+const { game } = Astro.props;
 
-const achievementsResponse = await getPlayerAchievements(String(appid));
-
-if (achievementsResponse == null) {
-  Astro.redirect("404");
-  return;
-}
-
-let { achievements } = achievementsResponse.playerstats;
-
-achievements.sort((a, b) => b.unlocktime - a.unlocktime);
+const achievements = game.data.achievements.sort(
+  (a, b) => b.unlocktime - a.unlocktime,
+);
 ---
 
 <Layout>
-  <h1>{appid}</h1>
+  <img
+    src={game.data.header_art}
+    alt="Game header art"
+    width={460}
+    height={215}
+		class="flex-1 aspect-auto m-auto"
+  />
+  <h1>{game.data.title}</h1>
 
   <h2>Achievements</h2>
   <ul class="space-y-4">
@@ -35,9 +34,9 @@ achievements.sort((a, b) => b.unlocktime - a.unlocktime);
       achievements.map((achievement) => (
         <li
           class:list={[
-            "flex flex-col gap-2 rounded-lg border p-4 text-white",
+            "flex flex-col gap-2 rounded-lg border p-4 text-black",
             {
-              "bg-red-400 text-black": achievement.achieved,
+              "bg-red-400 text-white": achievement.achieved,
             },
           ]}
         >

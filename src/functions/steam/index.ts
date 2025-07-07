@@ -1,3 +1,4 @@
+import { getEnvVar } from "src/utils/getEnv";
 import type {
   OwnedGames,
   Game,
@@ -5,8 +6,13 @@ import type {
   App,
   GetPlayerAchievements,
 } from "./types";
+import dotenv from "dotenv";
+import fetch from "node-fetch";
 
-const { STEAM_API_KEY, STEAM_ID } = import.meta.env;
+dotenv.config({ path: ".env.local" });
+
+const STEAM_API_KEY = getEnvVar("STEAM_API_KEY");
+const STEAM_ID = getEnvVar("STEAM_ID");
 
 export async function getRecentlyPlayedGames(): Promise<
   RecentlyPlayedGames["response"] | void
@@ -27,7 +33,7 @@ export async function getRecentlyPlayedGames(): Promise<
 export async function getOwnedGames(): Promise<Game[]> {
   const response = await fetch(
     `http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key=${
-      import.meta.env.STEAM_API_KEY
+      STEAM_API_KEY
     }&steamid=${STEAM_ID}&format=json&include_appinfo=true`,
     { method: "GET" },
   );
@@ -36,7 +42,9 @@ export async function getOwnedGames(): Promise<Game[]> {
     const json = (await response.json()) as OwnedGames;
 
     return json.response.games;
-  }
+  } else {
+		console.log(response)
+	}
 
   return [];
 }
@@ -70,7 +78,7 @@ export async function getPlayerAchievements(
 ): Promise<void | GetPlayerAchievements> {
   const response = await fetch(
     `http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?key=${
-      import.meta.env.STEAM_API_KEY
+      STEAM_API_KEY
     }&steamid=${STEAM_ID}&appid=${appid}&l=en_GB&format=json`,
   );
   if (response.ok) {

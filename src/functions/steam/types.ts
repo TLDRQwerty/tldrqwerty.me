@@ -16,7 +16,7 @@ export interface RecentlyPlayedGames {
   };
 }
 
-interface Achievement {
+export interface Achievement {
   apiname: string;
   achieved: boolean;
   unlocktime: number;
@@ -63,7 +63,7 @@ export interface App {
     about_the_game: string;
     short_description: string;
     supported_laguages: string;
-    header_iamge: string;
+    header_image: string;
     capsule_image: string;
     capsule_iamgev5: string;
     website: string | null;

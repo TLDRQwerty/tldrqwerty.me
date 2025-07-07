@@ -1,36 +1,42 @@
 ---
-enum GameType {
+export enum GameType {
   DS = "ds",
   SWITCH = "switch",
   DEFAULT = "default",
-	GAMEBOY = "gameboy",
-	XBOX_ONE = "xbox_one",
-	GAMEGEAR = "gamegear",
+  GAMEBOY = "gameboy",
+  XBOX_ONE = "xbox_one",
+  GAMEGEAR = "gamegear",
+  STEAM = "steam",
 }
 
 interface Props {
   name: string;
   type: GameType | string;
+  artwork?: string;
 }
 
-const { name, type = GameType.DEFAULT } = Astro.props;
-console.log(type);
+const { name, type = GameType.DEFAULT, artwork = null } = Astro.props;
 ---
 
 <li class="space-between flex flex-col items-center rounded-lg p-8">
-  <div
-    class:list={[
-      "from-pink to-mauve h-72 w-48 rounded bg-linear-200",
-      {
-        "h-[190px] w-[135px]": type === GameType.DEFAULT,
-        "h-[124px] w-[136px]": type === GameType.DS,
-        "h-[170px] w-[105px]": type === GameType.SWITCH,
-        "h-[125px] w-[125px]": type === GameType.GAMEBOY,
-        "h-[170px] w-[135px]": type === GameType.XBOX_ONE,
-        "h-[140px] w-[108px]": type === GameType.GAMEGEAR,
-      },
-    ]}
-  >
-  </div>
-  <p class="text-blue-200">{name}</p>
+  {
+    artwork == null && (
+      <div
+        class:list={[
+          "from-pink to-mauve h-72 w-48 rounded bg-linear-200",
+          {
+            "h-[190px] w-[135px]": type === GameType.DEFAULT,
+            "h-[124px] w-[136px]": type === GameType.DS,
+            "h-[170px] w-[105px]": type === GameType.SWITCH,
+            "h-[125px] w-[125px]": type === GameType.GAMEBOY,
+            "h-[170px] w-[135px]": type === GameType.XBOX_ONE,
+            "h-[140px] w-[108px]": type === GameType.GAMEGEAR,
+            "h-[900] w-[600]": type === GameType.STEAM,
+          },
+        ]}
+      />
+    )
+  }
+  {artwork != null && <img src={artwork} alt="Game box art" width={600} height={900} />}
+  <p class="text-blue-600">{name}</p>
 </li>

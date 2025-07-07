@@ -1,20 +1,37 @@
 ---
-import { getOwnedGames } from "@functions/steam";
 import Layout from "@layouts/Layout.astro";
-import Game from "@components/Game.astro";
+import Game, { GameType } from "@components/Game.astro";
 import { getCollection } from "astro:content";
 
 const platforms = await getCollection("games");
 
-let steamOwnedGames = await getOwnedGames();
-steamOwnedGames.sort((a, b) => b.playtime_forever - a.playtime_forever);
+const steam = await getCollection("steam");
+
+steam.sort((a, b) => b.data.playtime - a.data.playtime);
 ---
 
 <Layout>
   <div>
     <details>
-      <summary>Steam ({steamOwnedGames.length})</summary>
-      <ul>{steamOwnedGames.map((game) => <li>{game.name}</li>)}</ul>
+      <summary>Steam ({steam.length})</summary>
+      <ul class="grid grid-cols-3 gap-4">
+        {
+          steam.map((game) => (
+            <li class="space-between flex flex-col items-center rounded-lg p-8">
+              <a href={`/games/steam/${game.data.slug}`}>
+                <img
+                  src={game.data.box_art ?? game.data.header_art}
+                  alt="Game box art"
+                  width={600}
+                  height={900}
+                />
+                <p class="text-blue-600">{game.data.title}</p>
+								<span>{(game.data.playtime /60).toFixed(1)} hours</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </details>
 
     {
