@@ -11,7 +11,10 @@ const artists = await getTopArtists(5);
 ---
 
 <Layout>
-  <div>
+  <h1>Music</h1>
+
+  <h2>Tracks</h2>
+  <div class="grid grid-cols-3 gap-4">
     {
       tracks.map((track) => (
         <div>
@@ -23,7 +26,8 @@ const artists = await getTopArtists(5);
       ))
     }
   </div>
-  <div>
+  <h2>Artists</h2>
+  <div class="grid grid-cols-3 gap-4">
     {
       artists.map((artist) => (
         <div>
@@ -35,7 +39,8 @@ const artists = await getTopArtists(5);
       ))
     }
   </div>
-  <div>
+  <h2>Albums</h2>
+  <div class="grid grid-cols-3 gap-4">
     {
       albums.map((album) => (
         <div>

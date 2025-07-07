@@ -16,19 +16,35 @@ const { game } = Astro.props;
 const achievements = game.data.achievements.sort(
   (a, b) => b.unlocktime - a.unlocktime,
 );
+const totalEarned = achievements.filter((a) => a.achieved);
 ---
 
 <Layout>
-  <img
-    src={game.data.header_art}
-    alt="Game header art"
-    width={460}
-    height={215}
-		class="flex-1 aspect-auto m-auto"
-  />
+  {
+    game.data.header_art && (
+      <img
+        src={game.data.header_art}
+        alt="Game header art"
+        width={460}
+        height={215}
+        class="m-auto aspect-auto flex-1"
+      />
+    )
+  }
   <h1>{game.data.title}</h1>
 
-  <h2>Achievements</h2>
+  <a
+    href={`https://store.steampowered.com/app/${game.data.appid}`}
+    target="_blank"
+  >
+    View on Steam
+  </a>
+
+  <div class="flex flex-row gap-4">
+    <h2>Achievements</h2><span
+      >({totalEarned.length}/{achievements.length})</span
+    >
+  </div>
   <ul class="space-y-4">
     {
       achievements.map((achievement) => (
